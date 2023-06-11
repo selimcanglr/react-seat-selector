@@ -1,0 +1,27 @@
+{
+  "name": "react-seat-selector",
+  "version": "1.0.0",
+  "description": "A React component library that helps building seat selection pages by providing relevant components.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "rollup": "rollup -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.1",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.1",
+    "@types/react": "^18.2.11",
+    "react": "^18.2.0",
+    "rollup": "^3.25.0",
+    "rollup-plugin-dts": "^5.3.0",
+    "tslib": "^2.5.3",
+    "typescript": "^5.1.3"
+  }
+}
