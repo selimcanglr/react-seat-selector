@@ -1,0 +1,24 @@
+.seat-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ff9800;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Add a hover effect to the button */
+.seat-button:hover {
+  background-color: #ffb74d;
+}
+
+/* Add a pressed effect to the button */
+.seat-button:active {
+  background-color: #ffa726;
+}
+
+.is-selected {
+  background-color: #ffa726;
+}
