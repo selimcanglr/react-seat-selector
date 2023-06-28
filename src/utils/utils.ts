@@ -1,4 +1,4 @@
-export function convertFlightColumnToAlphabetic(col: number): string {
+export function convertColumnToAlphabetic(col: number): string {
   if (col < 1 || col > 27) {
     return "";
   }

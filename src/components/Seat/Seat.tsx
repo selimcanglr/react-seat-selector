@@ -9,7 +9,8 @@ export interface SeatProps {
 const Seat = (props: SeatProps) => {
   return (
     <button className="seat-button">
-      {props.row} - {props.column}
+      {props.row}
+      {props.column}
     </button>
   );
 };

@@ -4,7 +4,7 @@ import {
   initialSeatSelection,
   seatSelectionReducer,
 } from "../../hooks";
-import { convertFlightColumnToAlphabetic } from "../../utils/utils";
+import { convertColumnToAlphabetic } from "../../utils/utils";
 
 export interface SeatSelectorProps {
   numOfRows: number;
@@ -26,10 +26,7 @@ const SeatSelector = (props: SeatSelectorProps) => {
     for (let i = 0; i < numOfRows; i++) {
       for (let j = 0; j < numOfColumns; j++) {
         const key = `${i}{j}`;
-        seatMappings.set(
-          key,
-          `${convertFlightColumnToAlphabetic(j + 1)}${i + 1}}`
-        );
+        seatMappings.set(key, `${convertColumnToAlphabetic(j + 1)}${i + 1}}`);
       }
     }
     return seatMappings;
@@ -47,7 +44,7 @@ const SeatSelector = (props: SeatSelectorProps) => {
     dispatch({ type: "RESET_SEATS" });
   };
 
-  return <div>Seat selector</div>;
+  return <div></div>;
 };
 
 export default SeatSelector;
