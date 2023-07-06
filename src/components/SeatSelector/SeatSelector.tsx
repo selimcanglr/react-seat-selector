@@ -4,7 +4,7 @@ import {
   initialSeatSelection,
   seatSelectionReducer,
 } from "../../hooks";
-import { convertColumnToAlphabetic } from "../../utils/utils";
+import { convertColumnToAlphabetic } from "../../utils";
 
 export interface SeatSelectorProps {
   numOfRows: number;
