@@ -14,14 +14,11 @@ const meta: Meta<typeof Seat> = {
     },
   },
   argTypes: {
-    column: {
-      description: "The column number of the seat.",
+    seatNumber: {
+      description: "The seat number.",
       control: {
-        type: "number",
+        type: "text",
       },
-    },
-    row: {
-      description: "The row representing the location of the seat.",
     },
     isSelected: {
       description: "Whether the seat is selected.",
@@ -39,16 +36,14 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
-    column: 1,
-    row: "A",
     isSelected: false,
+    seatNumber: "A1",
   },
 };
 
 export const Selected: Story = {
   args: {
-    column: 1,
-    row: "A",
     isSelected: true,
+    seatNumber: "A1",
   },
 };

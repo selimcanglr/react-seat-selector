@@ -2,16 +2,18 @@ import React from "react";
 import "./Seat.css";
 
 export interface SeatProps {
-  row: string;
-  column: number;
+  seatNumber: string;
   isSelected: boolean;
+  onClick: () => void;
 }
 
 const Seat = (props: SeatProps) => {
   return (
-    <button className={`seat-button ${props.isSelected ? "selected" : ""}`}>
-      {props.row}
-      {props.column}
+    <button
+      onClick={props.onClick}
+      className={`seat-button ${props.isSelected ? "selected" : ""}`}
+    >
+      {props.seatNumber}
     </button>
   );
 };

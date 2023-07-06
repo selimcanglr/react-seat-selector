@@ -1,6 +1,9 @@
+import { areSeatsEqual } from "../utils";
+
 export type SeatLocation = {
-  row: number;
-  seat: number;
+  rowIndex: number;
+  colDivisionIndex: number;
+  colOffset: number;
 };
 export type SelectedSeatList = SeatLocation[];
 
@@ -43,8 +46,4 @@ export function seatSelectionReducer(
     default:
       throw new Error("Invalid action type");
   }
-}
-
-function areSeatsEqual(a: SeatLocation, b: SeatLocation) {
-  return a.row === b.row && a.seat === b.seat;
 }
