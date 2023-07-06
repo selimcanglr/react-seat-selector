@@ -4,7 +4,10 @@ import {
   initialSeatSelection,
   seatSelectionReducer,
 } from "../../hooks";
-import { convertRowToAlphabetic as convertColToAlphabetic } from "../../utils";
+import {
+  areSeatsEqual,
+  convertRowToAlphabetic as convertColToAlphabetic,
+} from "../../utils";
 import Seat from "../Seat/Seat";
 
 export interface SeatSelectorProps {
@@ -19,7 +22,6 @@ const SeatSelector = (props: SeatSelectorProps) => {
   );
 
   const seatMappings: Map<string, string> = useMemo(() => {
-    // TODO: Create seat mappings for each row and column (map them to seat locations like A1, B5, etc.)
     const numOfColumns = props.columnConfig.length;
     const numOfRows = props.numOfRows;
 
@@ -48,21 +50,9 @@ const SeatSelector = (props: SeatSelectorProps) => {
     }
     return seatMappings;
   }, [props.numOfRows, props.columnConfig]);
-  console.log(seatMappings);
-
-  const isSeatSelected = (seatLocation: SeatLocation) => {
-    const seat = state.find(
-      (seat) => seat.row === seatLocation.row && seat.col === seatLocation.col
-    );
-
-    if (!seat) {
-      return false;
-    }
-
-    return true;
-  };
 
   const handleSeatClick = (seatLocation: SeatLocation) => {
+    console.log(seatLocation);
     if (isSeatSelected(seatLocation)) {
       handleDeselectSeat(seatLocation);
     } else {
@@ -80,6 +70,11 @@ const SeatSelector = (props: SeatSelectorProps) => {
 
   const resetSeatSelection = () => {
     dispatch({ type: "RESET_SEATS" });
+  };
+
+  const isSeatSelected = (seatLocation: SeatLocation) => {
+    const seat = state.find((seat) => areSeatsEqual(seat, seatLocation));
+    return seat ? true : false;
   };
 
   const getSeatDisplayString = (
@@ -122,8 +117,9 @@ const SeatSelector = (props: SeatSelectorProps) => {
                 >
                   {Array.from({ length: sizeOfCol }).map((_, colOffset) => {
                     const seatLocation: SeatLocation = {
-                      row: rowIndex,
-                      col: colDivisionIndex,
+                      rowIndex: rowIndex,
+                      colDivisionIndex: colDivisionIndex,
+                      colOffset: colOffset,
                     };
                     const seatNumber = getSeatDisplayString(
                       rowIndex,
@@ -134,7 +130,7 @@ const SeatSelector = (props: SeatSelectorProps) => {
                       <Seat
                         key={seatNumber}
                         seatNumber={seatNumber || ""}
-                        isSelected={false}
+                        isSelected={isSeatSelected(seatLocation)}
                         onClick={() => handleSeatClick(seatLocation)}
                       />
                     );
