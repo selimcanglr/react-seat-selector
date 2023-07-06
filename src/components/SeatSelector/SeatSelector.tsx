@@ -4,7 +4,7 @@ import {
   initialSeatSelection,
   seatSelectionReducer,
 } from "../../hooks";
-import { convertRowToAlphabetic } from "../../utils";
+import { convertRowToAlphabetic as convertColToAlphabetic } from "../../utils";
 import Seat from "../Seat/Seat";
 
 export interface SeatSelectorProps {
@@ -18,27 +18,37 @@ const SeatSelector = (props: SeatSelectorProps) => {
     initialSeatSelection
   );
 
-  const seatLayoutContainerStyle = {
-    display: "grid",
-    gridTemplateRows: `repeat(${props.numOfRows}, 1fr)`,
-    gridTemplateColumns: `repeat(${props.columnConfig.length}, 1fr)`,
-    gridGap: "10px",
-  };
-
   const seatMappings: Map<string, string> = useMemo(() => {
     // TODO: Create seat mappings for each row and column (map them to seat locations like A1, B5, etc.)
     const numOfColumns = props.columnConfig.length;
     const numOfRows = props.numOfRows;
 
+    let colIndexCount = 0;
     const seatMappings = new Map<string, string>();
-    for (let i = 0; i < numOfRows; i++) {
-      for (let j = 0; j < numOfColumns; j++) {
-        const key = `${i}{j}`;
-        seatMappings.set(key, `${convertRowToAlphabetic(j + 1)}${i + 1}}`);
+    for (let rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
+      for (
+        let colDivisionIndex = 0;
+        colDivisionIndex < numOfColumns;
+        colDivisionIndex++
+      ) {
+        for (
+          let colOffset = 0;
+          colOffset < props.columnConfig[colDivisionIndex];
+          colOffset++
+        ) {
+          const key = `${rowIndex}${colDivisionIndex}${colOffset}`;
+          seatMappings.set(
+            key,
+            `${rowIndex + 1}${convertColToAlphabetic(colIndexCount + 1)}`
+          );
+          colIndexCount++;
+        }
       }
+      colIndexCount = 0;
     }
     return seatMappings;
   }, [props.numOfRows, props.columnConfig]);
+  console.log(seatMappings);
 
   const isSeatSelected = (seatLocation: SeatLocation) => {
     const seat = state.find(
@@ -72,30 +82,68 @@ const SeatSelector = (props: SeatSelectorProps) => {
     dispatch({ type: "RESET_SEATS" });
   };
 
+  const getSeatDisplayString = (
+    rowIndex: number,
+    colDivisionIndex: number,
+    columnIndex: number
+  ) => {
+    const key = `${rowIndex}${colDivisionIndex}${columnIndex}`;
+    const displayStr = seatMappings.get(key);
+    return displayStr;
+  };
+
   return (
-    <div style={seatLayoutContainerStyle}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+      }}
+    >
       {Array.from({
         length: props.numOfRows,
       }).map((_, rowIndex) => {
-        return Array.from({
-          length: props.columnConfig.length,
-        }).map((_, columnIndex) => {
-          const seatLocation: SeatLocation = {
-            row: rowIndex,
-            col: columnIndex,
-          };
-          const seatId = `${rowIndex}${columnIndex}`;
-          const seatNumber = seatMappings.get(seatId);
-          // const isSelected = state.selectedSeats.has(seatId);
-          return (
-            <Seat
-              key={seatId}
-              seatNumber={seatNumber || ""}
-              isSelected={false} // TODO: Pass in the correct isSelected value
-              onClick={() => handleSeatClick(seatLocation)}
-            />
-          );
-        });
+        return (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "30px",
+            }}
+          >
+            {props.columnConfig.map((sizeOfCol, colDivisionIndex) => {
+              return (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${sizeOfCol}, 1fr)`,
+                    gap: "5px",
+                  }}
+                >
+                  {Array.from({ length: sizeOfCol }).map((_, colOffset) => {
+                    const seatLocation: SeatLocation = {
+                      row: rowIndex,
+                      col: colDivisionIndex,
+                    };
+                    const seatNumber = getSeatDisplayString(
+                      rowIndex,
+                      colDivisionIndex,
+                      colOffset
+                    );
+                    return (
+                      <Seat
+                        key={seatNumber}
+                        seatNumber={seatNumber || ""}
+                        isSelected={false}
+                        onClick={() => handleSeatClick(seatLocation)}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        );
       })}
     </div>
   );

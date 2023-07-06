@@ -55,5 +55,9 @@
   },
   "peerDependencies": {
     "react": "^18.2.0"
+  },
+  "dependencies": {
+    "@storybook/addon-actions": "^7.0.26",
+    "@storybook/addon-console": "^2.0.0"
   }
 }
