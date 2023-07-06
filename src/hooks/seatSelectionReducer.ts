@@ -1,6 +1,6 @@
 export type SeatLocation = {
   row: number;
-  seat: number;
+  col: number;
 };
 export type SelectedSeatList = SeatLocation[];
 
@@ -46,5 +46,5 @@ export function seatSelectionReducer(
 }
 
 function areSeatsEqual(a: SeatLocation, b: SeatLocation) {
-  return a.row === b.row && a.seat === b.seat;
+  return a.row === b.row && a.col === b.col;
 }
