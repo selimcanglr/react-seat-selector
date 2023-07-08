@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { areSeatsEqual } from "../utils";
 
 export type SeatLocation = {
@@ -18,9 +19,17 @@ export type SeatSelectionAction = {
   payload?: SeatSelectionPayload;
 };
 
-export const initialSeatSelection: SelectedSeatList = [];
+const DEFAULT_INITIAL_SEAT_SELECTION: SelectedSeatList = [];
 
-export function seatSelectionReducer(
+export function useSeatSelector(
+  initialSeatSelection?: SelectedSeatList | undefined
+) {
+  let initialSeatSelectionState: SelectedSeatList =
+    initialSeatSelection || DEFAULT_INITIAL_SEAT_SELECTION;
+  return useReducer(seatSelectionReducer, initialSeatSelectionState);
+}
+
+function seatSelectionReducer(
   seats: SelectedSeatList,
   action: SeatSelectionAction
 ) {

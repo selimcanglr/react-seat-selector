@@ -1,8 +1,9 @@
-import { useMemo, useReducer } from "react";
+import { useMemo } from "react";
 import {
   SeatLocation,
-  initialSeatSelection,
-  seatSelectionReducer,
+  SeatSelectionAction,
+  SelectedSeatList,
+  useSeatSelector,
 } from "../../hooks";
 import {
   areSeatsEqual,
@@ -13,13 +14,11 @@ import Seat from "../Seat/Seat";
 export interface SeatSelectorProps {
   numOfRows: number;
   columnConfig: number[];
+  reducer: [SelectedSeatList, React.Dispatch<SeatSelectionAction>];
 }
 
 const SeatSelector = (props: SeatSelectorProps) => {
-  const [state, dispatch] = useReducer(
-    seatSelectionReducer,
-    initialSeatSelection
-  );
+  const [state, dispatch] = props.reducer;
 
   const seatMappings: Map<string, string> = useMemo(() => {
     const numOfColumns = props.columnConfig.length;

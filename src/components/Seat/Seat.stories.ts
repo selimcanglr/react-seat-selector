@@ -4,7 +4,7 @@ import Seat from "./Seat";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof Seat> = {
-  title: "Seat Config/Seat",
+  title: "Seat Selector/Seat",
   component: Seat,
   parameters: {
     docs: {
